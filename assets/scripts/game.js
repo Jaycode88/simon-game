@@ -1,3 +1,5 @@
+const { jsxAttribute } = require("@babel/types");
+
 let game = {
     currentGame: [],
     playerMoves: [],
@@ -43,9 +45,9 @@ function showTurns() {
 }
 
 function lightsOn(circ) {
-    document.getElementById(circ).classList.add(circ + "light");
+    document.getElementById(circ).classList.add(circ + "light");  // the circ + needs to be removed for game to work in browser
     setTimeout(function () {
-        document.getElementById(circ).classList.remove(circ + "light");
+        document.getElementById(circ).classList.remove(circ + "light"); //// the circ + needs to be removed for game to work in browser
     }, 400);
 }
 
@@ -53,4 +55,18 @@ function showScore() {
     document.getElementById("score").innerText = game.score;
 }
 
-module.exports = { game, newGame, showScore, addTurn, lightsOn, showTurns };
+function playerTurn() {
+    let i = game.playerMoves.length - 1;
+    if (game.currentGame[i] === game.playerMoves[i]) {
+        if (game.currentGame.length == game.playerMoves.length) {
+            game.score++;
+            showScore();
+            addTurn();
+        }
+    } else {
+        alert("Wrong move!");
+        newGame();
+    }
+}
+
+module.exports = { game, newGame, showScore, addTurn, lightsOn, showTurns, playerTurn };
